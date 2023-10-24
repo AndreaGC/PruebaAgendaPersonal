@@ -2,7 +2,6 @@
 Prueba técnica OAS
 
 Andrea Carolina Gómez Camelo
-
 Base de datos: 
 Tres tablas
 
@@ -24,4 +23,3 @@ dir_correo
 id_contacto
 
 Contacto es clave foránea en las tablas num_contacto y correo, ya que un contacto puede tener muchos teléfonos y muchos correos.
-
