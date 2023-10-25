@@ -2,7 +2,7 @@ const express = require('express')
 const mysql = require('mysql')
 const bodyParser = require('body-parser')
 const { query } = require('express')
-const res = require('express/lib/response')
+
 
 const app = express()
 
@@ -94,7 +94,7 @@ app.post('/contacto/agregar/:id', (req, res) => {
 
 
 app.post('/guardarContacto', (req, res) => {
-    console.log("3")
+    
     const datos = req.body;
     const query = `INSERT INTO contacto (id_contacto, nombres, apellidos, dir_contacto) VALUES ('${datos.id_contacto}','${datos.nombres}','${datos.apellidos}','${datos.dir_contacto}')`
     
@@ -105,22 +105,24 @@ app.post('/guardarContacto', (req, res) => {
             const query=`INSERT INTO num_contacto (id_num,num_tel, tipo_num,id_contacto) VALUES (NULL,'${number.num_tels}','${number.tipo_tels}','${datos.id_contacto}')`
             conexion.query(query,(error,resultado)=>{
                 if (error) return console.error(error.message);
-                datos.correos.forEach((val_correo)=>{
-                    const query=`INSERT INTO correo (id_correo,dir_correo,id_contacto) VALUES (NULL,'${val_correo}','${datos.id_contacto}')`
-                    conexion.query(query,(error,resultado)=>{
-                        if (error) return console.error(error.message);    
-                    })
-                })
+            });
+        })
+
+        datos.correos.forEach((val_correo)=>{
+            const query=`INSERT INTO correo (id_correo,dir_correo,id_contacto) VALUES (NULL,'${val_correo}','${datos.id_contacto}')`
+            conexion.query(query,(error,resultado)=>{
+                if (error) return console.error(error.message);    
             })
-        });
+        })
+            
+        
         res.json(`Se agregó correctamente el contacto`)
     })
 });
 
-        //Actualizar número del contacto 
-        app.put('/numero_contacto/actualizar/:id', (req, res) => {
-            const { id_contacto } = req.params
-            const { num_tel, tipo } = req.body
+        //Actualizar contacto 
+        app.put('/contacto/actualizar/:id', (req, res) => {
+            datos_actz=req.body;
 
             const query = `UPDATE num_contacto SET nombre='${num_tel}', tipo='${tipo} WHERE id_contacto='${id_contacto}'`
             conexion.query(query, (error, resultado) => {
